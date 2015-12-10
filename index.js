@@ -70,7 +70,11 @@ var ScrollableTabView = React.createClass({
         // This is awkward because when we are scrolling we are offsetting the underlying view
         // to the left (-x)
         var offsetX = dx - (this.state.currentPage * deviceWidth);
-        this.state.scrollValue.setValue(-1 * offsetX / deviceWidth);
+        var overflow = typeof this.props.overflow === 'undefined' ? true : this.props.overflow;
+        var newVal = -1 * offsetX / deviceWidth;
+        if(overflow || (newVal >= 0 && newVal <= this.props.children.length - 1)) {
+          this.state.scrollValue.setValue(newVal);
+        }
       },
     });
   },
